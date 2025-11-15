@@ -1,7 +1,7 @@
 
 %{!?_version: %global _version %(jq -r '.[]."@google/gemini-cli"' package.json)}
 
-Name: gemini
+Name: gemini-cli
 Version: %{_version}
 Release: 1%{?dist}
 Summary: An open-source AI agent that brings the power of Gemini directly into your terminal
