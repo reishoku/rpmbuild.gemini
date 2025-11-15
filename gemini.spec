@@ -1,9 +1,10 @@
-Name: gemini
-Version: 0.15.1
-Release: 1%{?dist}
-Summary: An open-source AI agent that brings the power of Gemini directly into your terminal
 
 %{!?_version: %global _version %(jq -r '.[]."@google/gemini-cli"' package.json)}
+
+Name: gemini
+Version: %{_version}
+Release: 1%{?dist}
+Summary: An open-source AI agent that brings the power of Gemini directly into your terminal
 
 License: Apache-2.0
 URL: https://github.com/google-gemini/gemini-cli
