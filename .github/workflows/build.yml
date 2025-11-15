@@ -4,7 +4,7 @@ name: Build RPM
 on:
   pull_request:
     paths:
-      - 'gemini.spec'
+      - '*.spec'
       - '.github/workflows/build.yml'
   workflow_dispatch:
 
@@ -47,7 +47,7 @@ jobs:
 
       - name: Copy spec file
         run: |
-          cp gemini.spec ~/rpmbuild/SPECS/
+          cp gemini-cli.spec ~/rpmbuild/SPECS/
 
       - name: Copy source file
         run: |
@@ -56,7 +56,7 @@ jobs:
       - name: Download source files
         run: |
           cd ~/rpmbuild/SOURCES
-          rpmdev-spectool -g ../SPECS/gemini.spec
+          rpmdev-spectool -g ../SPECS/gemini-cli.spec
 
       - name: Build RPM
         run: |
@@ -65,7 +65,7 @@ jobs:
           rpmbuild -bb \
             --nodebuginfo \
             --define "_version ${GEMINI_VERSION}" \
-            ~/rpmbuild/SPECS/gemini.spec
+            ~/rpmbuild/SPECS/gemini-cli.spec
 
       - name: List built RPMs
         run: |
