@@ -1,0 +1,75 @@
+
+name: Build RPM
+
+on:
+  pull_request:
+    paths:
+      - 'gemini.spec'
+      - '.github/workflows/build.yml'
+  workflow_dispatch:
+
+jobs:
+  build-rpm:
+    strategy:
+      matrix:
+        runs-on: [
+          "ubuntu-24.04",
+          "ubuntu-24.04-arm"
+        ]
+        container: [
+          "almalinux:9",
+          "almalinux:10",
+          "almalinux:10-kitten",
+          "quay.io/centos/centos:stream9",
+          "quay.io/centos/centos:stream10"
+        ]
+    runs-on: ${{ matrix.runs-on }}
+    container:
+      image: ${{ matrix.container }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Install RPM build tools
+        run: |
+          dnf -q --refresh makecache -y
+          dnf -q --setopt='install_weak_deps=False' install -y findutils jq @"RPM Development Tools"
+
+      - name: Set up RPM build environment
+        run: |
+          rpmdev-setuptree
+
+      - name: Get Gemini CLI version
+        run: |
+          echo "GEMINI_VERSION=$(jq -r '.[]."@google/gemini-cli"' package.json)" >> $GITHUB_ENV
+
+
+      - name: Copy spec file
+        run: |
+          cp gemini.spec ~/rpmbuild/SPECS/
+
+      - name: Copy source file
+        run: |
+          find . -mindepth 1 -maxdepth 1 -type f -iname '*' -and -not -iname '.git' -exec cp -r {} ~/rpmbuild/SOURCES/ \;
+
+      - name: Download source files
+        run: |
+          cd ~/rpmbuild/SOURCES
+          rpmdev-spectool -g ../SPECS/gemini.spec
+
+      - name: Build RPM
+        run: |
+          cd ~/rpmbuild/SPECS
+          echo "Building RPM for version ${GEMINI_VERSION}"
+          rpmbuild -bb \
+            --nodebuginfo \
+            --define "_version ${GEMINI_VERSION}" \
+            ~/rpmbuild/SPECS/gemini.spec
+
+      - name: List built RPMs
+        run: |
+          find ~/rpmbuild/RPMS -type f -name "*.rpm" -ls
+          find ~/rpmbuild/RPMS -type f -name "*.rpm" -exec rpm -qpi {} \+
+          find ~/rpmbuild/RPMS -type f -name "*.rpm" -exec rpm -qpl {} \+
+ 
