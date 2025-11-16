@@ -5,4 +5,4 @@
 
 export GEMINI_TELEMETRY_ENABLED='false'
 
-`dirname ${0}`/../libexec/gemini/gemini.js "$@"
+`dirname ${0}`/../libexec/gemini-cli/gemini.js "$@"
