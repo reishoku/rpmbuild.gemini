@@ -1,3 +1,8 @@
 #!/usr/bin/bash
 
+# See also:
+#  - https://geminicli.com/docs/get-started/configuration/#environment-variables--env-files
+
+export GEMINI_TELEMETRY_ENABLED='false'
+
 `dirname ${0}`/../libexec/gemini/gemini.js "$@"
