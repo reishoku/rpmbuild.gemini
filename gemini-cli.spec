@@ -42,6 +42,9 @@ tar zxf %{SOURCE10} --strip-components 1 -C .
 
 
 %changelog
-* Sat Nov 15 2025 KOSHIKAWA Kenichi <reishoku.misc@pm.me> - 0.15-1
+* Sun Nov 16 2025 KOSHIKAWA Kenichi <reishoku.misc@pm.me> - 0.15.3-1
+- Update to 0.15.3
+
+* Sat Nov 15 2025 KOSHIKAWA Kenichi <reishoku.misc@pm.me> - 0.15.1-1
 - Initial RPM packaging for Gemini CLI
 
