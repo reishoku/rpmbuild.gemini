@@ -12,6 +12,8 @@ Source0: %url/releases/download/v%{version}/gemini.js
 Source10: %url/archive/refs/tags/v%{version}.tar.gz
 Source20: gemini-wrapper
 
+BuildRequires: jq
+BuildRequires: tar
 Requires: nodejs
 
 %description
