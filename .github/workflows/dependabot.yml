@@ -38,7 +38,7 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           sudo apt-get update -y -q
-          sudo apt-get --no-install-recommends --no-install-suggests install -y -q rpmdevtools jq git
+          sudo apt-get --no-install-recommends --no-install-suggests install -y -q rpm-i18n jq git
 
       - name: Prepare and update changelog using rpmdev-bumpspec
         id: bump-spec
@@ -48,6 +48,13 @@ jobs:
         run: |
           set -euo pipefail
           
+          curl -sLO 'https://pagure.io/rpmdevtools/raw/main/f/rpmdev-bumpspec'
+          curl -sLO 'https://pagure.io/rpmdevtools/raw/main/f/rpmdev-packager'
+          chmod +x rpmdev-bumpspec
+          chmod +x rpmdev-packager
+          sudo mv rpmdev-bumpspec /usr/bin/
+          sudo mv rpmdev-packager /usr/bin/
+
           if [ -z "${NEW_VERSION:-}" ] || [ "${NEW_VERSION}" = "null" ]; then 
             NEW_VERSION="$(jq -r '.[]."@google/gemini-cli"' package.json)"
           fi
@@ -58,9 +65,8 @@ jobs:
           fi
 
           rpmdev-bumpspec \
-            -u 'reishoku <reishoku.misc@pm.me>' \
-            -d $(env TZ='Asia/Tokyo' LC_TIME=C date '+%a %b %d %Y') \
-            -r '1%{?dist}' \
+            -u 'KOSHIKAWA Kenichi <reishoku.misc@pm.me>' \
+            -d "$(env TZ='Asia/Tokyo' LC_TIME=C date '+%a %b %d %Y')" \
             -n "${NEW_VERSION}" \
             -c "Update to ${NEW_VERSION}" \
             gemini-cli.spec
@@ -71,11 +77,11 @@ jobs:
       - name: Commit and push
         if: steps.bump-spec.outputs.changed == 'true'
         env:
-          NEW_VERSION: ${{ steps.prep.outputs.new_version }}
+          NEW_VERSION: ${{ steps.meta.outputs.new_version }}
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add gemini-cli.spec
-          git commit -S "rpm(spec): Update version to ${NEW_VERSION}"
+          git commit -m "rpm(spec): Update version to ${NEW_VERSION}"
           git push origin
