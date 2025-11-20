@@ -2,7 +2,7 @@
 %{!?_version: %global _version %(jq -r '.[]."@google/gemini-cli"' package.json)}
 
 Name: gemini-cli
-Version: %{_version}
+Version: 0.15.4
 Release: 1%{?dist}
 Summary: An open-source AI agent that brings the power of Gemini directly into your terminal
 
@@ -44,6 +44,9 @@ tar zxf %{SOURCE10} --strip-components 1 -C .
 
 
 %changelog
+* Thu Nov 20 2025 KOSHIKAWA Kenichi <reishoku.misc@pm.me> - 0.15.4-1
+- Update to 0.15.4
+
 * Sun Nov 16 2025 KOSHIKAWA Kenichi <reishoku.misc@pm.me> - 0.15.3-1
 - Update to 0.15.3
 
