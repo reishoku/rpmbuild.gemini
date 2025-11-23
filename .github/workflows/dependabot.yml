@@ -83,7 +83,7 @@ jobs:
           export NEW_VERSION="${{ steps.meta.outputs.new-version }}"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add gemini-cli.spec
+          git add -A
           git commit -m "rpm(spec): Update version to ${NEW_VERSION}"
-          git tag "${NEW_VERSION}"
-          git push origin --tags
+          git tag "${NEW_VERSION}" HEAD
+          git push origin
