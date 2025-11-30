@@ -1,6 +1,4 @@
 
-%{!?_version: %global _version %(jq -r '.[]."@google/gemini-cli"' package.json)}
-
 Name: gemini-cli
 Version: 0.18.4
 Release: 1%{?dist}
@@ -12,7 +10,6 @@ Source0: %url/releases/download/v%{version}/gemini.js
 Source10: %url/archive/refs/tags/v%{version}.tar.gz
 Source20: gemini-wrapper
 
-BuildRequires: jq
 BuildRequires: tar
 Requires: nodejs
 
