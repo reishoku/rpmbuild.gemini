@@ -1,6 +1,6 @@
 
 Name: gemini-cli
-Version: 0.18.4
+Version: 0.19.1
 Release: 1%{?dist}
 Summary: An open-source AI agent that brings the power of Gemini directly into your terminal
 
@@ -41,6 +41,9 @@ tar zxf %{SOURCE10} --strip-components 1 -C .
 
 
 %changelog
+* Thu Dec 04 2025 KOSHIKAWA Kenichi <reishoku.misc@pm.me> - 0.19.1-1
+- Update to 0.19.1
+
 * Thu Nov 27 2025 KOSHIKAWA Kenichi <reishoku.misc@pm.me> - 0.18.4-1
 - Update to 0.18.4
 
