@@ -5,4 +5,6 @@ updates:
     schedule:
       timezone: "Asia/Tokyo"
       interval: "daily"
+    assignees:
+      - "reishoku"
     open-pull-requests-limit: 1
